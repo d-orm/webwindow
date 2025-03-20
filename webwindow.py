@@ -186,7 +186,6 @@ script = '''
     });
 
     window.addEventListener('mousedown', (evt) => {
-        const rect = canvas.getBoundingClientRect();
         if (mouseInCanvasBounds(evt)) {
             state.keys.add(mouseKeys[evt.button]);
         }
