@@ -193,7 +193,6 @@ script = '''
     });
 
     window.addEventListener('mouseup', (evt) => {
-        const rect = canvas.getBoundingClientRect();
         state.keys.delete(mouseKeys[evt.button]);
     });
 
