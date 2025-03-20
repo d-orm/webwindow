@@ -169,16 +169,12 @@ script = '''
         F24: 'f24',
     };
 
-    const canvasRect = canvas.getBoundingClientRect();
-
     const mouseInCanvasBounds = (evt) => {
-        if (
-            evt.clientX >= canvasRect.left && evt.clientX <= canvasRect.right 
-            && evt.clientY >= canvasRect.top && evt.clientY <= canvasRect.bottom
-        ) {
-            return true;
-        }
-        return false;
+        const rect = canvas.getBoundingClientRect();
+        return (
+            evt.clientX >= rect.left && evt.clientX <= rect.right 
+            && evt.clientY >= rect.top && evt.clientY <= rect.bottom
+        );
     }
 
     window.addEventListener('keydown', (evt) => {
@@ -190,23 +186,29 @@ script = '''
     });
 
     window.addEventListener('mousedown', (evt) => {
+        const rect = canvas.getBoundingClientRect();
         if (mouseInCanvasBounds(evt)) {
             state.keys.add(mouseKeys[evt.button]);
         }
     });
 
     window.addEventListener('mouseup', (evt) => {
+        const rect = canvas.getBoundingClientRect();
         state.keys.delete(mouseKeys[evt.button]);
     });
 
     window.addEventListener('mousemove', (evt) => {
+        const rect = canvas.getBoundingClientRect();
         if (mouseInCanvasBounds(evt)) {
-            state.mouse[0] = Math.floor((evt.clientX - canvasRect.left) * canvas.width / canvasRect.width);
-            state.mouse[1] = Math.floor((evt.clientY - canvasRect.top) * canvas.height / canvasRect.height);
+            state.mouse[0] = Math.floor((evt.clientX - rect.left) * canvas.width / rect.width);
+            state.mouse[1] = Math.floor((evt.clientY - rect.top) * canvas.height / rect.height);
         }
-        else {
-            state.keys.delete(mouseKeys[evt.button]);
-        }
+    });
+
+    canvas.addEventListener('mouseleave', (evt) => {
+        mouseKeys.forEach(key => {
+            state.keys.delete(key);
+        });
     });
 
     let last_timestamp = null;
