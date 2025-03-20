@@ -203,12 +203,6 @@ script = '''
         }
     });
 
-    canvas.addEventListener('mouseleave', (evt) => {
-        mouseKeys.forEach(key => {
-            state.keys.delete(key);
-        });
-    });
-
     let last_timestamp = null;
     const animate = (timestamp) => {
         if (last_timestamp === null) {
